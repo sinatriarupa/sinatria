@@ -1,0 +1,1768 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SINATRIA | Rutan Kelas IIB Pandeglang</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+  <style>
+    :root{
+      --navy:#002D5E;
+      --gold:#D4AF37;
+      --light-gold:#F4E5B2;
+      --white:#ffffff;
+      --gray:#f4f4f9;
+      --dark:#333;
+    }
+    *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;}
+    body{background-color:var(--gray);color:var(--dark);line-height:1.6;}
+
+    /* NAV */
+    nav{
+      background-color:var(--navy);
+      color:var(--white);
+      padding:1rem 5%;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      position:sticky;top:0;z-index:1000;
+      border-bottom:3px solid var(--gold);
+      gap:12px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      min-width:fit-content;
+    }
+    .logo-text{
+      font-weight:700;
+      font-size:1.5rem;
+      letter-spacing:1px;
+    }
+    .brand-logo{
+      width:38px;
+      height:38px;
+      object-fit:contain;
+      border-radius:8px;
+      background:#fff;
+      padding:4px;
+      border:1px solid rgba(255,255,255,.15);
+    }
+
+    .nav-links{list-style:none;display:flex;}
+    .nav-links li{margin-left:20px;}
+    .nav-links a{color:var(--white);text-decoration:none;font-weight:500;transition:.3s;}
+    .nav-links a:hover{color:var(--gold);}
+
+    .nav-toggle{
+      display:none;
+      border:1px solid rgba(255,255,255,.25);
+      background:rgba(255,255,255,.06);
+      color:#fff;
+      width:44px;height:40px;border-radius:10px;
+      cursor:pointer;
+    }
+    .nav-toggle:focus{outline:3px solid rgba(212,175,55,.35);outline-offset:2px;}
+
+    .btn-logout{
+      background:rgba(255,255,255,.12);
+      border:1px solid rgba(255,255,255,.18);
+      color:#fff;
+      padding:10px 12px;
+      border-radius:10px;
+      cursor:pointer;
+      font-weight:800;
+      display:none;
+    }
+
+    /* MOBILE NAV */
+    .mobile-nav{
+      display:none;
+      position:fixed;inset:0;
+      background:rgba(0,0,0,.55);
+      z-index:1500;
+      padding:18px;
+    }
+    .mobile-nav.show{display:block;}
+    .mobile-nav-panel{
+      width:100%;
+      max-width:420px;
+      margin-left:auto;
+      background:var(--navy);
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:14px;
+      overflow:hidden;
+      box-shadow:0 12px 35px rgba(0,0,0,.35);
+    }
+    .mobile-nav-header{
+      display:flex;align-items:center;justify-content:space-between;
+      padding:14px;
+      border-bottom:1px solid rgba(255,255,255,.12);
+    }
+    .mobile-nav-header strong{color:var(--gold);letter-spacing:.5px;}
+    .mobile-nav-close{
+      border:none;
+      background:rgba(255,255,255,.08);
+      color:#fff;
+      width:40px;height:36px;border-radius:10px;
+      cursor:pointer;
+    }
+    .mobile-links{
+      list-style:none;
+      display:flex;flex-direction:column;
+      padding:10px;
+      gap:8px;
+    }
+    .mobile-links a{
+      display:flex;align-items:center;gap:10px;
+      padding:12px;
+      border-radius:12px;
+      color:#fff;
+      text-decoration:none;
+      font-weight:700;
+      background:rgba(255,255,255,.06);
+    }
+    .mobile-links a:hover{background:rgba(255,255,255,.10);}
+
+    /* HERO (Drive thumbnail) */
+    .hero{
+      background:linear-gradient(rgba(0,45,94,.9),rgba(0,45,94,.8)),
+        url("https://drive.google.com/thumbnail?id=1TyNBtwp00T6LezOKvseTQl2okaTV5Dx-&sz=w2000")
+        no-repeat center center/cover;
+      height:80vh;
+      display:flex;flex-direction:column;
+      justify-content:center;align-items:center;
+      text-align:center;color:#fff;
+      padding:0 20px;
+    }
+    .hero h1{font-size:3rem;margin-bottom:1rem;color:var(--gold);}
+    .hero p{font-size:1.2rem;max-width:800px;margin-bottom:2rem;}
+    .btn{
+      background-color:var(--gold);
+      color:var(--navy);
+      padding:12px 30px;
+      text-decoration:none;
+      font-weight:800;
+      border-radius:5px;
+      transition:.3s;
+    }
+    .btn:hover{background:#fff;transform:translateY(-3px);}
+
+    /* ABOUT */
+    .about{padding:80px 5%;background:#fff;text-align:center;}
+    .about h2{color:var(--navy);margin-bottom:20px;font-size:2rem;}
+    .about p{max-width:900px;margin:0 auto;color:#555;}
+
+    .about-image{
+      width:100%;
+      max-width:150px;
+      margin:16px auto 18px;
+      display:block;
+      border-radius:14px;
+      border:1px solid #e5e7eb;
+      box-shadow:0 10px 30px rgba(0,0,0,.10);
+    }
+
+    /* MONITORING */
+    .monitoring{padding:80px 5%;background:#fff;text-align:center;}
+    .monitoring h2{color:var(--navy);margin-bottom:12px;font-size:2rem;}
+    .monitoring p{max-width:900px;margin:0 auto;color:#555;}
+
+    .monitoring-wrap{
+      margin-top:24px;
+      display:grid;
+      grid-template-columns:1.1fr .9fr;
+      gap:22px;
+      align-items:start;
+    }
+    .chart-card{
+      background:#fff;border-radius:12px;
+      box-shadow:0 4px 15px rgba(0,0,0,.08);
+      border-top:4px solid var(--gold);
+      padding:18px;text-align:left;
+    }
+    .chart-title{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:12px;}
+    .chart-title h3{color:var(--navy);font-size:1.1rem;}
+    .chart-title small{color:#64748b;}
+
+    .donut-row{display:grid;grid-template-columns:280px 1fr;gap:18px;align-items:center;}
+    .donut-wrap{position:relative;width:280px;height:280px;margin:0 auto;}
+    .donut-svg{width:100%;height:100%;transform:rotate(-90deg);}
+    .donut-bg{fill:none;stroke:#e5e7eb;stroke-width:22;}
+    .donut-seg{fill:none;stroke-width:22;stroke-linecap:butt;transition:stroke-dasharray .6s ease, stroke-dashoffset .6s ease;}
+
+    .donut-center{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;pointer-events:none;}
+    .donut-center .big{font-size:2rem;font-weight:900;color:#0f172a;line-height:1.1;}
+    .donut-center .small{color:#64748b;font-weight:700;}
+
+    .legend{display:flex;flex-direction:column;gap:10px;}
+    .legend-item{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px;border:1px solid #eef2f7;border-radius:12px;background:#fff;}
+    .legend-left{display:flex;align-items:center;gap:10px;}
+    .dot{width:12px;height:12px;border-radius:999px;background:#64748b;flex:0 0 auto;}
+    .legend-name{font-weight:900;color:#0f172a;}
+    .legend-val{font-weight:900;color:#0f172a;}
+    .legend-pct{color:#64748b;font-weight:800;margin-left:8px;font-size:.9rem;}
+
+    .kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+    .kpi{
+      background:#fff;border-radius:12px;
+      box-shadow:0 4px 15px rgba(0,0,0,.08);
+      border-top:4px solid var(--gold);
+      padding:14px;text-align:left;
+    }
+    .kpi .label{color:#475569;font-weight:700;font-size:.95rem;}
+    .kpi .value{font-size:2rem;font-weight:900;color:#0f172a;line-height:1.1;}
+    .kpi small{color:#64748b;}
+    .kpi.total{border-top-color:var(--gold);}
+    .kpi.baik{border-top-color:#28a745;}
+    .kpi.perbaiki{border-top-color:#ffc107;}
+    .kpi.rusak{border-top-color:#dc3545;}
+
+    @media (max-width:980px){
+      .monitoring-wrap{grid-template-columns:1fr;}
+      .donut-row{grid-template-columns:1fr;}
+      .chart-card{text-align:center;}
+      .legend{text-align:left;}
+    }
+
+    /* KELOLA ASET (ADMIN) */
+    .assets{padding:60px 5%;background:var(--gray);display:none;}
+    .assets.show{display:block;}
+    .assets h2{color:var(--navy);margin-bottom:14px;font-size:1.8rem;text-align:center;}
+    .assets .panel{
+      background:#fff;border-radius:12px;
+      box-shadow:0 4px 15px rgba(0,0,0,.08);
+      overflow:hidden;border-top:4px solid var(--gold);
+    }
+    .assets-actions{
+      display:flex;gap:10px;justify-content:space-between;align-items:center;
+      padding:12px 14px;background:#fff;border-bottom:1px solid #eef2f7;flex-wrap:wrap;
+    }
+    .hint{color:#64748b;font-weight:700;font-size:.95rem;}
+    .btn-small{border:none;padding:10px 12px;border-radius:10px;cursor:pointer;font-weight:900;}
+    .btn-outline{background:#fff;border:1px solid #e5e7eb;color:#0f172a;}
+    .btn-outline:hover{filter:brightness(.98);}
+    .btn-danger{
+      background:#ef4444;color:#fff;padding:10px 14px;border:none;border-radius:8px;
+      cursor:pointer;font-weight:900;
+    }
+    .btn-danger:hover{filter:brightness(1.02);}
+    .assets-table-wrap{overflow:auto;}
+    .assets table{width:100%;border-collapse:collapse;}
+    .assets thead{background:#f8fafc;}
+    .assets th,.assets td{
+      padding:12px 14px;border-bottom:1px solid #eef2f7;vertical-align:top;text-align:left;
+      font-size:.95rem;white-space:nowrap;
+    }
+    .assets th{color:#0f172a;font-weight:900;}
+    .assets td.wrap{white-space:normal;min-width:220px;}
+
+    .chip{display:inline-block;padding:4px 10px;border-radius:999px;font-size:.85rem;font-weight:900;}
+    .chip.baik{background:#dcfce7;color:#166534;}
+    .chip.diperbaiki{background:#fef9c3;color:#854d0e;}
+    .chip.rusak{background:#fee2e2;color:#991b1b;}
+
+    /* REPORTS */
+    .reports{padding:60px 5%;background:var(--gray);}
+    .reports h2{color:var(--navy);margin-bottom:16px;font-size:1.8rem;text-align:center;}
+    .reports .table-wrap{
+      background:#fff;border-radius:12px;
+      box-shadow:0 4px 15px rgba(0,0,0,.08);
+      overflow:hidden;border-top:4px solid var(--gold);
+    }
+    table{width:100%;border-collapse:collapse;}
+    thead{background:#f8fafc;}
+    th,td{padding:12px 14px;border-bottom:1px solid #eef2f7;vertical-align:top;text-align:left;font-size:.95rem;}
+    th{color:#0f172a;font-weight:900;}
+    .badge{display:inline-block;padding:4px 10px;border-radius:999px;font-size:.85rem;font-weight:900;}
+    .badge.ringan{background:#dcfce7;color:#166534;}
+    .badge.sedang{background:#fef9c3;color:#854d0e;}
+    .badge.berat{background:#fee2e2;color:#991b1b;}
+    .thumb{width:70px;height:52px;object-fit:cover;border-radius:10px;border:1px solid #e5e7eb;}
+    .reports-actions{display:flex;gap:10px;justify-content:flex-end;padding:12px 14px;background:#fff;border-top:1px solid #eef2f7;}
+
+    /* STATUS REQUEST */
+    .status-badge{
+      display:inline-block;
+      padding:4px 10px;
+      border-radius:999px;
+      font-size:.85rem;
+      font-weight:900;
+    }
+    .status-dilaporkan{ background:#dbeafe; color:#1e40af; } /* biru */
+    .status-proses{ background:#fef9c3; color:#854d0e; }     /* kuning */
+    .status-selesai{ background:#dcfce7; color:#166534; }    /* hijau */
+
+    /* ===== MOBILE FRIENDLY RIWAYAT ===== */
+    .table-wrap{ overflow:auto; -webkit-overflow-scrolling:touch; }
+
+    /* Card list (mobile) */
+    #reportsCards{
+      padding:12px;
+      display:none;
+      gap:12px;
+    }
+    .report-card{
+      background:#fff;
+      border:1px solid #eef2f7;
+      border-radius:14px;
+      box-shadow:0 4px 15px rgba(0,0,0,.06);
+      overflow:hidden;
+    }
+    .report-card .rc-head{
+      padding:12px 14px;
+      background:#f8fafc;
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:10px;
+      border-bottom:1px solid #eef2f7;
+    }
+    .report-card .rc-head .date{
+      font-weight:900;
+      color:#0f172a;
+      font-size:.95rem;
+    }
+    .report-card .rc-head .meta{
+      display:flex;
+      flex-direction:column;
+      align-items:flex-end;
+      gap:6px;
+    }
+    .report-card .rc-body{
+      padding:12px 14px;
+      display:grid;
+      gap:10px;
+    }
+    .rc-row{
+      display:grid;
+      grid-template-columns:120px 1fr;
+      gap:10px;
+      align-items:start;
+    }
+    .rc-row .k{
+      color:#64748b;
+      font-weight:800;
+      font-size:.88rem;
+    }
+    .rc-row .v{
+      color:#0f172a;
+      font-weight:800;
+      font-size:.92rem;
+      word-break:break-word;
+    }
+    .rc-desc{
+      margin-top:6px;
+      padding:10px 12px;
+      background:#f8fafc;
+      border:1px solid #eef2f7;
+      border-radius:12px;
+      color:#111827;
+      font-weight:700;
+      white-space:pre-wrap;
+    }
+    .rc-photo a{ display:inline-block; }
+    .rc-photo img{
+      width:100%;
+      max-width:320px;
+      height:auto;
+      border-radius:12px;
+      border:1px solid #e5e7eb;
+    }
+
+    /* dropdown status admin di mobile */
+    .report-card select{
+      padding:9px 10px;
+      border:1px solid #e2e8f0;
+      border-radius:10px;
+      font-weight:900;
+      background:#fff;
+    }
+
+    @media (max-width:680px){
+      #reportsTable{ display:none; }
+      #reportsCards{ display:grid; }
+      .reports-actions{ justify-content:stretch; }
+      .reports-actions .btn-danger{ width:100%; }
+      .rc-row{ grid-template-columns:98px 1fr; }
+    }
+
+    /* FOOTER */
+    footer{background:var(--navy);color:#fff;padding:40px 5% 20px;border-top:5px solid var(--gold);}
+    .footer-content{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:30px;margin-bottom:30px;}
+    .footer-section h4{color:var(--gold);margin-bottom:15px;text-transform:uppercase;}
+    .pasti-slogan{font-size:1.2rem;font-weight:900;color:var(--gold);letter-spacing:2px;}
+    .copyright{text-align:center;padding-top:20px;border-top:1px solid rgba(255,255,255,.1);font-size:.9rem;}
+
+    /* MODAL */
+    .modal-overlay{
+      position:fixed;inset:0;background:rgba(0,0,0,.55);
+      display:none;align-items:center;justify-content:center;
+      padding:20px;z-index:2000;
+    }
+    .modal-overlay.show{display:flex;}
+    .modal{
+      width:100%;max-width:720px;background:#fff;border-radius:12px;overflow:hidden;
+      box-shadow:0 12px 35px rgba(0,0,0,.25);border-top:5px solid var(--gold);
+      max-height:92vh;display:flex;flex-direction:column;
+    }
+    .modal-header{
+      background:var(--navy);color:#fff;padding:16px 18px;
+      display:flex;align-items:center;justify-content:space-between;gap:12px;
+      position:sticky;top:0;z-index:3;
+    }
+    .modal-header h3{font-size:1.1rem;font-weight:800;letter-spacing:.3px;}
+    .modal-close{
+      border:none;background:transparent;color:#fff;font-size:1.25rem;cursor:pointer;
+      padding:6px 8px;border-radius:8px;transition:.2s;
+    }
+    .modal-close:hover{background:rgba(255,255,255,.12);}
+    .modal-body{padding:18px;flex:1 1 auto;overflow:auto;-webkit-overflow-scrolling:touch;}
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+    .form-group{display:flex;flex-direction:column;gap:6px;}
+    .form-group.full{grid-column:1 / -1;}
+    label{font-weight:700;color:#1f2a37;font-size:.95rem;}
+    input[type="text"],input[type="password"],input[type="file"],select,textarea{
+      padding:10px 12px;border:1px solid #e2e8f0;border-radius:8px;outline:none;
+      transition:.2s;background:#fff;
+    }
+    textarea{min-height:110px;resize:vertical;}
+    input:focus,select:focus,textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(212,175,55,.25);}
+
+    .modal-footer{
+      padding:14px 18px 18px;
+      display:flex;justify-content:flex-end;gap:10px;
+      border-top:1px solid #eef2f7;
+      position:sticky;bottom:0;background:#fff;z-index:2;
+    }
+    .btn-secondary{
+      background:#e5e7eb;color:#111827;padding:10px 16px;border:none;border-radius:8px;
+      cursor:pointer;font-weight:800;
+    }
+    .btn-primary{
+      background:var(--gold);color:var(--navy);padding:10px 16px;border:none;border-radius:8px;
+      cursor:pointer;font-weight:900;
+    }
+    .btn-secondary:hover{filter:brightness(.98);}
+    .btn-primary:hover{filter:brightness(1.02);}
+
+    .preview{margin-top:10px;display:none;gap:12px;align-items:center;}
+    .preview.show{display:flex;}
+    .preview img{width:120px;height:90px;object-fit:cover;border-radius:10px;border:1px solid #e5e7eb;}
+    .preview small{color:#6b7280;}
+
+    @media (max-width:768px){
+      .hero h1{font-size:2rem;}
+      .nav-links{display:none;}
+      .nav-toggle{display:inline-flex;align-items:center;justify-content:center;}
+    }
+    @media (max-width:680px){
+      .form-grid{grid-template-columns:1fr;}
+      .modal-overlay{padding:12px;align-items:flex-end;}
+      .modal{max-width:100%;width:100%;border-radius:14px 14px 0 0;max-height:92vh;}
+      .modal-body{padding:14px;}
+      .modal-footer{padding:12px 14px 14px;}
+      .modal-footer .btn-secondary,.modal-footer .btn-primary{flex:1 1 0;}
+      .assets th,.assets td{font-size:.9rem;}
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="brand">
+      <img class="brand-logo"
+           src="https://drive.google.com/thumbnail?id=1sDQZytdf6HV0uqP5FoN8oBqmayJLMDnW&sz=w1000"
+           alt="Logo SINATRIA"
+           onerror="this.onerror=null; this.src='https://drive.google.com/uc?export=view&id=1sDQZytdf6HV0uqP5FoN8oBqmayJLMDnW';" />
+      <div class="logo-text">SINATRIA</div>
+    </div>
+
+    <div style="display:flex;align-items:center;gap:10px;">
+      <button class="btn-logout" id="adminLogoutBtn" type="button" title="Logout Admin">
+        <i class="fas fa-right-from-bracket"></i>
+      </button>
+
+      <button class="nav-toggle" id="navToggleBtn" aria-label="Buka menu" aria-controls="mobileNav" aria-expanded="false">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+
+    <ul class="nav-links" aria-label="Menu utama">
+      <li><a href="#beranda">Beranda</a></li>
+      <li><a href="#about">Tentang</a></li>
+      <li><a href="#monitoring">Monitoring</a></li>
+      <li><a href="#" id="kelolaAsetLink">Kelola Aset</a></li>
+      <li><a href="#" id="inputAsetLink">Input Aset</a></li>
+      <li><a href="#" id="requestPerbaikanLink">Request Perbaikan</a></li>
+    </ul>
+  </nav>
+
+  <!-- Mobile Nav -->
+  <div class="mobile-nav" id="mobileNav" aria-hidden="true">
+    <div class="mobile-nav-panel" role="dialog" aria-modal="true" aria-label="Menu navigasi">
+      <div class="mobile-nav-header">
+        <strong>SINATRIA</strong>
+        <button class="mobile-nav-close" id="mobileNavCloseBtn" aria-label="Tutup menu">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <ul class="mobile-links">
+        <li><a class="mobile-link" href="#beranda"><i class="fas fa-home"></i> Beranda</a></li>
+        <li><a class="mobile-link" href="#about"><i class="fas fa-circle-info"></i> Tentang</a></li>
+        <li><a class="mobile-link" href="#monitoring"><i class="fas fa-chart-pie"></i> Monitoring</a></li>
+        <li><a class="mobile-link" href="#" id="mobileKelolaAsetLink"><i class="fas fa-box-archive"></i> Kelola Aset</a></li>
+        <li><a class="mobile-link" href="#" id="mobileInputAsetLink"><i class="fas fa-pen-to-square"></i> Input Aset</a></li>
+        <li><a class="mobile-link" href="#" id="mobileRequestPerbaikanLink"><i class="fas fa-wrench"></i> Request Perbaikan</a></li>
+        <li><a class="mobile-link" href="#riwayat"><i class="fas fa-clock-rotate-left"></i> Riwayat</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <section class="hero" id="beranda">
+    <h1>Digitalisasi Pengelolaan Aset</h1>
+    <p>Mewujudkan tata kelola fasilitas umum yang transparan, akuntabel, dan terintegrasi di lingkungan Rutan Kelas IIB Pandeglang melalui sistem pemantauan real-time.</p>
+    <a href="#about" class="btn">Pelajari Selengkapnya</a>
+  </section>
+
+  <section class="about" id="about">
+    <h2>Tentang SINATRIA</h2>
+    <img class="about-image"
+         src="https://drive.google.com/thumbnail?id=1sDQZytdf6HV0uqP5FoN8oBqmayJLMDnW&sz=w2000"
+         alt="Gambar Tentang SINATRIA" />
+    <p>SINATRIA (Sistem Informasi Ngatur Inventaris Jeung Alat Nagara) adalah platform inovatif yang dirancang khusus untuk mengoptimalkan pendataan, pemantauan, dan pemeliharaan Barang Milik Negara (BMN) di lingkungan Rutan Kelas IIB Pandeglang. Dengan sistem ini, setiap fasilitas dapat terpantau kondisinya guna mendukung kelancaran pelayanan dan operasional kedinasan.</p>
+  </section>
+
+  <section class="monitoring" id="monitoring">
+    <h2>Monitoring Aset</h2>
+    <p>Pantauan ringkas kondisi aset: total, baik, sedang diperbaiki, dan rusak.</p>
+
+    <div class="monitoring-wrap">
+      <div class="chart-card">
+        <div class="chart-title">
+          <h3>Diagram Lingkaran Kondisi Aset</h3>
+          <small>*Persentase dari total</small>
+        </div>
+
+        <div class="donut-row">
+          <div class="donut-wrap" aria-label="Diagram lingkaran kondisi aset">
+            <svg class="donut-svg" viewBox="0 0 120 120" role="img">
+              <circle class="donut-bg" cx="60" cy="60" r="42"></circle>
+              <circle id="seg-baik" class="donut-seg" cx="60" cy="60" r="42" stroke="#28a745"></circle>
+              <circle id="seg-perbaiki" class="donut-seg" cx="60" cy="60" r="42" stroke="#ffc107"></circle>
+              <circle id="seg-rusak" class="donut-seg" cx="60" cy="60" r="42" stroke="#dc3545"></circle>
+            </svg>
+
+            <div class="donut-center">
+              <div class="big" id="donut-total">0</div>
+              <div class="small">Total Aset</div>
+            </div>
+          </div>
+
+          <div class="legend" aria-label="Legenda diagram">
+            <div class="legend-item">
+              <div class="legend-left">
+                <span class="dot" style="background:#28a745;"></span>
+                <span class="legend-name">Baik</span>
+              </div>
+              <div>
+                <span class="legend-val" id="legend-baik">0</span>
+                <span class="legend-pct" id="pct-baik">(0%)</span>
+              </div>
+            </div>
+
+            <div class="legend-item">
+              <div class="legend-left">
+                <span class="dot" style="background:#ffc107;"></span>
+                <span class="legend-name">Diperbaiki</span>
+              </div>
+              <div>
+                <span class="legend-val" id="legend-perbaiki">0</span>
+                <span class="legend-pct" id="pct-perbaiki">(0%)</span>
+              </div>
+            </div>
+
+            <div class="legend-item">
+              <div class="legend-left">
+                <span class="dot" style="background:#dc3545;"></span>
+                <span class="legend-name">Rusak</span>
+              </div>
+              <div>
+                <span class="legend-val" id="legend-rusak">0</span>
+                <span class="legend-pct" id="pct-rusak">(0%)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="kpi-grid">
+        <div class="kpi total">
+          <div class="label">Total Aset</div>
+          <div class="value" id="kpi-total">0</div>
+          <small>Jumlah keseluruhan aset</small>
+        </div>
+        <div class="kpi baik">
+          <div class="label">Kondisi Baik</div>
+          <div class="value" id="kpi-baik">0</div>
+          <small>Aset siap digunakan</small>
+        </div>
+        <div class="kpi perbaiki">
+          <div class="label">Sedang Diperbaiki</div>
+          <div class="value" id="kpi-perbaiki">0</div>
+          <small>Dalam proses perbaikan</small>
+        </div>
+        <div class="kpi rusak">
+          <div class="label">Rusak</div>
+          <div class="value" id="kpi-rusak">0</div>
+          <small>Perlu tindakan segera</small>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Admin-only: Kelola Aset -->
+  <section class="assets" id="kelola-aset">
+    <h2>Kelola Aset (Admin - Lokal & Sheet)</h2>
+    <div class="panel">
+      <div class="assets-actions">
+        <div class="hint">
+          Pilih aset yang ingin dihapus. Sistem akan menghapus <b>di Google Sheet</b> (berdasarkan Asset ID) lalu menghapus <b>localStorage</b>.
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <button class="btn-small btn-outline" id="selectAllAssetsBtn" type="button">
+            <i class="fas fa-check-double"></i> Pilih Semua
+          </button>
+          <button class="btn-small btn-outline" id="unselectAllAssetsBtn" type="button">
+            <i class="fas fa-xmark"></i> Batal Pilih
+          </button>
+          <button class="btn-danger" id="deleteSelectedAssetsBtn" type="button">
+            <i class="fas fa-trash"></i> Hapus yang Dipilih (Sheet + Lokal)
+          </button>
+        </div>
+      </div>
+
+      <div class="assets-table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:44px;">Pilih</th>
+              <th>Asset ID</th>
+              <th>Tanggal</th>
+              <th>Nama Aset</th>
+              <th>Merek</th>
+              <th>Lokasi</th>
+              <th>Kondisi</th>
+              <th class="wrap">Keterangan</th>
+            </tr>
+          </thead>
+          <tbody id="assetsTbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Input Aset (Admin Only) -->
+  <section class="about" id="input-aset" style="display:none;">
+    <h2>Input Aset (Admin)</h2>
+    <p>Isi data aset. Setelah klik Simpan/Tidak, Anda akan kembali ke Beranda.</p>
+
+    <div style="max-width:900px;margin:20px auto;text-align:left;">
+      <form id="inputAsetForm">
+        <div class="form-grid" style="margin-top:12px;">
+          <div class="form-group">
+            <label for="asetNama">Nama Aset</label>
+            <input type="text" id="asetNama" name="asetNama" required />
+          </div>
+
+          <div class="form-group">
+            <label for="merek">Merek</label>
+            <input type="text" id="merek" name="merek" required />
+          </div>
+
+          <div class="form-group">
+            <label for="asetLokasi">Lokasi</label>
+            <input type="text" id="asetLokasi" name="asetLokasi" required />
+          </div>
+
+          <div class="form-group">
+            <label for="asetKondisi">Kondisi</label>
+            <select id="asetKondisi" name="asetKondisi" required>
+              <option value="" selected disabled>Pilih...</option>
+              <option value="baik">Baik</option>
+              <option value="diperbaiki">Diperbaiki</option>
+              <option value="rusak">Rusak</option>
+            </select>
+          </div>
+
+          <div class="form-group full">
+            <label for="asetKeterangan">Keterangan</label>
+            <textarea id="asetKeterangan" name="asetKeterangan" placeholder="Opsional"></textarea>
+          </div>
+
+          <div class="form-group full" id="asetMsg" style="display:none;font-weight:800;"></div>
+        </div>
+
+        <div class="modal-footer" style="justify-content:flex-end;">
+          <button type="button" class="btn-secondary" id="btnTidakSimpan">Tidak</button>
+          <button type="submit" class="btn-primary" id="btnSimpanAset">Simpan</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- Riwayat Laporan -->
+  <section class="reports" id="riwayat">
+    <h2>Riwayat Laporan Request Perbaikan</h2>
+    <div class="table-wrap">
+      <table id="reportsTable">
+        <thead>
+          <tr>
+            <th>Tanggal</th>
+            <th>Nama Pemohon</th>
+            <th>Nama Aset</th>
+            <th>Lokasi</th>
+            <th>Tingkat</th>
+            <th>Status</th>
+            <th>Deskripsi</th>
+            <th>Foto</th>
+            <th>Aksi (Admin)</th>
+          </tr>
+        </thead>
+        <tbody id="reportsTbody"></tbody>
+      </table>
+
+      <!-- Mobile cards -->
+      <div id="reportsCards"></div>
+
+      <div class="reports-actions">
+        <button class="btn-danger" id="clearReportsBtn" type="button">
+          <i class="fas fa-trash"></i> Hapus Riwayat (Lokal)
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-section">
+        <h4>Rutan Kelas IIB Pandeglang</h4>
+        <p>Jl. Raya Serang No. 02, Kadumerak, Karang Tanjung, Kabupaten Pandeglang, Banten 42211.</p>
+      </div>
+      <div class="footer-section">
+        <h4>Slogan Pelayanan</h4>
+        <p class="pasti-slogan">"PASTI"</p>
+        <p>Profesional, Akuntabel, Sinergi, Transparan, Inovatif.</p>
+      </div>
+      <div class="footer-section">
+        <h4>Tautan Cepat</h4>
+        <p><i class="fas fa-arrow-right"></i> Dashboard Monitoring</p>
+        <p><i class="fas fa-arrow-right"></i> Lapor Kerusakan</p>
+      </div>
+    </div>
+    <div class="copyright">
+      &copy; 2026 SINATRIA Rutan Pandeglang. All Rights Reserved.
+    </div>
+  </footer>
+
+  <!-- Modal Request Perbaikan -->
+  <div class="modal-overlay" id="requestModalOverlay" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="requestModalTitle">
+      <div class="modal-header">
+        <h3 id="requestModalTitle"><i class="fas fa-wrench"></i> Form Request Perbaikan Aset</h3>
+        <button class="modal-close" id="requestModalCloseBtn" aria-label="Tutup">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <form id="requestPerbaikanForm">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="namaPemohon">Nama Pemohon</label>
+              <input type="text" id="namaPemohon" name="namaPemohon" placeholder="Nama lengkap pemohon" required />
+            </div>
+
+            <div class="form-group">
+              <label for="namaAset">Nama Aset</label>
+              <input type="text" id="namaAset" name="namaAset" placeholder="Contoh: AC Ruang Administrasi" required />
+            </div>
+
+            <div class="form-group">
+              <label for="lokasiAset">Lokasi</label>
+              <input type="text" id="lokasiAset" name="lokasiAset" placeholder="Contoh: Blok A - Lantai 1" required />
+            </div>
+
+            <div class="form-group">
+              <label for="tingkatKerusakan">Tingkat Kerusakan</label>
+              <select id="tingkatKerusakan" name="tingkatKerusakan" required>
+                <option value="" selected disabled>Pilih...</option>
+                <option value="ringan">Ringan</option>
+                <option value="sedang">Sedang</option>
+                <option value="berat">Berat</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="fotoAset">Foto Aset (kamera/galeri)</label>
+              <input type="file" id="fotoAset" name="fotoAset" accept="image/*" capture="environment" required />
+              <div class="preview" id="fotoPreview">
+                <img id="fotoPreviewImg" alt="Preview foto aset" />
+                <small>Preview foto yang dipilih.</small>
+              </div>
+            </div>
+
+            <div class="form-group full">
+              <label for="deskripsiKerusakan">Deskripsi Kerusakan</label>
+              <textarea id="deskripsiKerusakan" name="deskripsiKerusakan" placeholder="Jelaskan kerusakan: gejala, kapan terjadi, dampak, dll." required></textarea>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn-secondary" id="requestModalCancelBtn">Batal</button>
+            <button type="submit" class="btn-primary">Kirim Request</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Login Admin -->
+  <div class="modal-overlay" id="adminModalOverlay" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="adminModalTitle">
+      <div class="modal-header">
+        <h3 id="adminModalTitle"><i class="fas fa-lock"></i> Login Admin</h3>
+        <button class="modal-close" id="adminModalCloseBtn" aria-label="Tutup">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <form id="adminLoginForm">
+          <div class="form-grid">
+            <div class="form-group full">
+              <label for="adminEmail">Email Admin</label>
+              <input type="text" id="adminEmail" name="adminEmail" placeholder="Masukkan email admin" required />
+            </div>
+
+            <div class="form-group full">
+              <label for="adminPassword">Password</label>
+              <input type="password" id="adminPassword" name="adminPassword" placeholder="Masukkan password" required />
+            </div>
+
+            <div class="form-group full" id="adminLoginError" style="display:none;color:#b91c1c;font-weight:900;">
+              Email atau password salah.
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn-secondary" id="adminModalCancelBtn">Batal</button>
+            <button type="submit" class="btn-primary">Login</button>
+          </div>
+        </form>
+
+        <div style="margin-top:10px;color:#64748b;font-weight:700;font-size:.92rem;">
+          Catatan: Login ini hanya mengamankan fitur di halaman (client-side). Penghapusan di Sheet dikontrol oleh Apps Script.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EmailJS -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+  <script>
+    // =========================================================
+    // CONFIG (PENTING)
+    // =========================================================
+    const ASSET_API_URL = "https://script.google.com/macros/s/AKfycbzRYw63EFeuYD9gVIjRQROePqqI5YN4o0R5WL7eRI7W7NZQaSxUZlqWxXSqMxdEmooo/exec";
+
+    // Admin UI (login client)
+    const ADMIN_LOGIN_EMAIL = "sinatriarupa@gmail.com";
+    const ADMIN_LOGIN_PASSWORD = "InovasiM4gan9";
+    const ADMIN_SESSION_KEY = "sinatria_admin_email";
+
+    // EmailJS
+    const ADMIN_EMAIL = "sinatriarupa@gmail.com";
+    const EMAILJS_PUBLIC_KEY = "dLdHcee9nQkCWdVcY";
+    const EMAILJS_TEMPLATE_ID = "template_lh5h7tc";
+    const EMAILJS_SERVICE_ID = "service_bzjvpu5";
+
+    // localStorage keys
+    const ASSET_STORAGE_KEY = "sinatria_assets_v1";
+    const REPORTS_STORAGE_KEY = "sinatria_reports_v1";
+
+    // =========================================================
+    // HELPERS
+    // =========================================================
+    function escapeHtml(str) {
+      return String(str)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function safeJsonParse(text) {
+      try { return JSON.parse(text); }
+      catch { return { ok: false, error: text }; }
+    }
+
+    function makeAssetId() {
+      if (window.crypto && typeof crypto.randomUUID === "function") return crypto.randomUUID();
+      return "asset_" + Date.now() + "_" + Math.random().toString(16).slice(2);
+    }
+
+    function formatIso(iso) {
+      try {
+        const d = new Date(iso);
+        if (Number.isNaN(d.getTime())) return String(iso || "-");
+        return d.toLocaleString("id-ID", {
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+          hour: "2-digit",
+          minute: "2-digit"
+        });
+      } catch {
+        return String(iso || "-");
+      }
+    }
+
+    // Status helpers (Request Perbaikan)
+    function getStatusClass(status) {
+      const s = String(status || "").toLowerCase();
+      if (s === "dilaporkan") return "status-dilaporkan";
+      if (s === "proses") return "status-proses";
+      return "status-selesai"; // Sudah di perbaiki
+    }
+    function normalizeStatus(status) {
+      const s = String(status || "").toLowerCase();
+      if (s === "dilaporkan") return "Dilaporkan";
+      if (s === "proses") return "Proses";
+      return "Sudah di perbaiki";
+    }
+
+    // =========================================================
+    // MOBILE NAV
+    // =========================================================
+    const navToggleBtn = document.getElementById("navToggleBtn");
+    const mobileNav = document.getElementById("mobileNav");
+    const mobileNavCloseBtn = document.getElementById("mobileNavCloseBtn");
+
+    function openMobileNav() {
+      mobileNav.classList.add("show");
+      mobileNav.setAttribute("aria-hidden", "false");
+      navToggleBtn.setAttribute("aria-expanded", "true");
+      document.body.style.overflow = "hidden";
+    }
+    function closeMobileNav() {
+      mobileNav.classList.remove("show");
+      mobileNav.setAttribute("aria-hidden", "true");
+      navToggleBtn.setAttribute("aria-expanded", "false");
+      document.body.style.overflow = "";
+    }
+
+    navToggleBtn.addEventListener("click", () => {
+      if (mobileNav.classList.contains("show")) closeMobileNav();
+      else openMobileNav();
+    });
+    mobileNavCloseBtn.addEventListener("click", closeMobileNav);
+    mobileNav.addEventListener("click", (e) => { if (e.target === mobileNav) closeMobileNav(); });
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape" && mobileNav.classList.contains("show")) closeMobileNav(); });
+
+    document.querySelectorAll(".mobile-link").forEach(a => {
+      a.addEventListener("click", () => {
+        const href = a.getAttribute("href") || "";
+        if (href.startsWith("#")) closeMobileNav();
+      });
+    });
+
+    // =========================================================
+    // ADMIN AUTH (client-side)
+    // =========================================================
+    const adminLogoutBtn = document.getElementById("adminLogoutBtn");
+    const kelolaAsetSection = document.getElementById("kelola-aset");
+
+    function isAdminLoggedIn() {
+      const email = sessionStorage.getItem(ADMIN_SESSION_KEY) || "";
+      return email === ADMIN_LOGIN_EMAIL;
+    }
+
+    // =========================================================
+    // MODAL ADMIN
+    // =========================================================
+    const adminOverlay = document.getElementById("adminModalOverlay");
+    const adminCloseBtn = document.getElementById("adminModalCloseBtn");
+    const adminCancelBtn = document.getElementById("adminModalCancelBtn");
+    const adminForm = document.getElementById("adminLoginForm");
+    const adminEmailInput = document.getElementById("adminEmail");
+    const adminPassInput = document.getElementById("adminPassword");
+    const adminLoginError = document.getElementById("adminLoginError");
+
+    let adminAfterLoginTarget = ""; // "input-aset" atau "kelola-aset"
+
+    function openAdminModal(targetAfterLogin) {
+      adminAfterLoginTarget = targetAfterLogin || "";
+      adminOverlay.classList.add("show");
+      adminOverlay.setAttribute("aria-hidden", "false");
+      adminLoginError.style.display = "none";
+      adminForm.reset();
+      setTimeout(() => adminEmailInput.focus(), 50);
+    }
+    function closeAdminModal() {
+      adminOverlay.classList.remove("show");
+      adminOverlay.setAttribute("aria-hidden", "true");
+    }
+
+    adminCloseBtn.addEventListener("click", closeAdminModal);
+    adminCancelBtn.addEventListener("click", closeAdminModal);
+    adminOverlay.addEventListener("click", (e) => { if (e.target === adminOverlay) closeAdminModal(); });
+
+    // =========================================================
+    // MENU: Input Aset / Kelola Aset (Admin only)
+    // =========================================================
+    const inputAsetLink = document.getElementById("inputAsetLink");
+    const mobileInputAsetLink = document.getElementById("mobileInputAsetLink");
+    const kelolaAsetLink = document.getElementById("kelolaAsetLink");
+    const mobileKelolaAsetLink = document.getElementById("mobileKelolaAsetLink");
+    const inputAsetSection = document.getElementById("input-aset");
+
+    function showInputAsetSection() {
+      const asetMsg = document.getElementById("asetMsg");
+      if (asetMsg) { asetMsg.style.display = "none"; asetMsg.textContent = ""; }
+
+      inputAsetSection.style.display = "block";
+      location.hash = "#input-aset";
+      inputAsetSection.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function goHome() {
+      inputAsetSection.style.display = "none";
+      location.hash = "#beranda";
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function goKelolaAset() {
+      kelolaAsetSection.classList.add("show");
+      renderAssetsManager();
+      location.hash = "#kelola-aset";
+      kelolaAsetSection.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function handleInputAsetClick(e) {
+      e.preventDefault();
+      if (isAdminLoggedIn()) showInputAsetSection();
+      else openAdminModal("input-aset");
+    }
+
+    function handleKelolaAsetClick(e) {
+      e.preventDefault();
+      if (isAdminLoggedIn()) goKelolaAset();
+      else openAdminModal("kelola-aset");
+    }
+
+    inputAsetLink.addEventListener("click", handleInputAsetClick);
+    kelolaAsetLink.addEventListener("click", handleKelolaAsetClick);
+
+    if (mobileInputAsetLink) {
+      mobileInputAsetLink.addEventListener("click", (e) => {
+        e.preventDefault();
+        closeMobileNav();
+        handleInputAsetClick(e);
+      });
+    }
+
+    if (mobileKelolaAsetLink) {
+      mobileKelolaAsetLink.addEventListener("click", (e) => {
+        e.preventDefault();
+        closeMobileNav();
+        handleKelolaAsetClick(e);
+      });
+    }
+
+    // =========================================================
+    // ADMIN LOGIN HANDLING
+    // =========================================================
+    adminForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const email = (adminEmailInput.value || "").trim();
+      const pass = (adminPassInput.value || "").trim();
+
+      if (email === ADMIN_LOGIN_EMAIL && pass === ADMIN_LOGIN_PASSWORD) {
+        adminLoginError.style.display = "none";
+        sessionStorage.setItem(ADMIN_SESSION_KEY, email);
+        closeAdminModal();
+        applyAdminUI();
+
+        if (adminAfterLoginTarget === "input-aset") showInputAsetSection();
+        if (adminAfterLoginTarget === "kelola-aset") goKelolaAset();
+        return;
+      }
+      adminLoginError.style.display = "block";
+    });
+
+    adminLogoutBtn.addEventListener("click", () => {
+      const ok = confirm("Logout admin?");
+      if (!ok) return;
+      sessionStorage.removeItem(ADMIN_SESSION_KEY);
+      applyAdminUI();
+      location.hash = "#beranda";
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    // =========================================================
+    // MODAL REQUEST PERBAIKAN
+    // =========================================================
+    const requestLink = document.getElementById("requestPerbaikanLink");
+    const requestOverlay = document.getElementById("requestModalOverlay");
+    const requestCloseBtn = document.getElementById("requestModalCloseBtn");
+    const requestCancelBtn = document.getElementById("requestModalCancelBtn");
+    const requestForm = document.getElementById("requestPerbaikanForm");
+    const fotoInput = document.getElementById("fotoAset");
+    const previewWrap = document.getElementById("fotoPreview");
+    const previewImg = document.getElementById("fotoPreviewImg");
+
+    function openRequestModal() {
+      requestOverlay.classList.add("show");
+      requestOverlay.setAttribute("aria-hidden", "false");
+      const modalBody = requestOverlay.querySelector(".modal-body");
+      if (modalBody) modalBody.scrollTop = 0;
+      setTimeout(() => {
+        const first = document.getElementById("namaPemohon");
+        if (first) first.focus();
+      }, 50);
+    }
+    function closeRequestModal() {
+      requestOverlay.classList.remove("show");
+      requestOverlay.setAttribute("aria-hidden", "true");
+    }
+
+    requestLink.addEventListener("click", (e) => { e.preventDefault(); openRequestModal(); });
+    requestCloseBtn.addEventListener("click", closeRequestModal);
+    requestCancelBtn.addEventListener("click", closeRequestModal);
+    requestOverlay.addEventListener("click", (e) => { if (e.target === requestOverlay) closeRequestModal(); });
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape" && requestOverlay.classList.contains("show")) closeRequestModal(); });
+
+    fotoInput.addEventListener("change", () => {
+      const file = fotoInput.files && fotoInput.files[0];
+      if (!file) {
+        previewWrap.classList.remove("show");
+        previewImg.removeAttribute("src");
+        return;
+      }
+      const url = URL.createObjectURL(file);
+      previewImg.src = url;
+      previewWrap.classList.add("show");
+    });
+
+    const mobileRequestPerbaikanLink = document.getElementById("mobileRequestPerbaikanLink");
+    if (mobileRequestPerbaikanLink) {
+      mobileRequestPerbaikanLink.addEventListener("click", (e) => {
+        e.preventDefault();
+        closeMobileNav();
+        openRequestModal();
+      });
+    }
+
+    // =========================================================
+    // ASET STORAGE (local)
+    // =========================================================
+    function loadAssets() {
+      try {
+        const raw = localStorage.getItem(ASSET_STORAGE_KEY);
+        return raw ? JSON.parse(raw) : [];
+      } catch {
+        return [];
+      }
+    }
+    function saveAssets(assets) {
+      localStorage.setItem(ASSET_STORAGE_KEY, JSON.stringify(assets));
+    }
+
+    function computeMonitoringFromAssets(assets) {
+      let baik = 0, perbaiki = 0, rusak = 0;
+      for (const a of assets) {
+        if (a.kondisi === "baik") baik++;
+        else if (a.kondisi === "diperbaiki") perbaiki++;
+        else if (a.kondisi === "rusak") rusak++;
+      }
+      const total = assets.length;
+      return { total, baik, perbaiki, rusak };
+    }
+
+    // =========================================================
+    // MONITORING UI
+    // =========================================================
+    function setDonutSegments({ baik, perbaiki, rusak, total }) {
+      const r = 42;
+      const C = 2 * Math.PI * r;
+
+      const safeTotal = Math.max(total, 1);
+      const pBaik = baik / safeTotal;
+      const pPer = perbaiki / safeTotal;
+      const pRus = rusak / safeTotal;
+
+      const lenBaik = C * pBaik;
+      const lenPer = C * pPer;
+      const lenRus = C * pRus;
+
+      const segBaik = document.getElementById("seg-baik");
+      const segPer = document.getElementById("seg-perbaiki");
+      const segRus = document.getElementById("seg-rusak");
+
+      segBaik.style.strokeDasharray = `${lenBaik} ${C - lenBaik}`;
+      segPer.style.strokeDasharray = `${lenPer} ${C - lenPer}`;
+      segRus.style.strokeDasharray = `${lenRus} ${C - lenRus}`;
+
+      segBaik.style.strokeDashoffset = `0`;
+      segPer.style.strokeDashoffset = `${-lenBaik}`;
+      segRus.style.strokeDashoffset = `${-(lenBaik + lenPer)}`;
+
+      document.getElementById("legend-baik").textContent = baik;
+      document.getElementById("legend-perbaiki").textContent = perbaiki;
+      document.getElementById("legend-rusak").textContent = rusak;
+
+      document.getElementById("pct-baik").textContent = `(${Math.round(pBaik * 100)}%)`;
+      document.getElementById("pct-perbaiki").textContent = `(${Math.round(pPer * 100)}%)`;
+      document.getElementById("pct-rusak").textContent = `(${Math.round(pRus * 100)}%)`;
+
+      document.getElementById("donut-total").textContent = total;
+    }
+
+    function setMonitoringData({ total, baik, perbaiki, rusak }) {
+      document.getElementById("kpi-total").textContent = total;
+      document.getElementById("kpi-baik").textContent = baik;
+      document.getElementById("kpi-perbaiki").textContent = perbaiki;
+      document.getElementById("kpi-rusak").textContent = rusak;
+      setDonutSegments({ baik, perbaiki, rusak, total });
+    }
+
+    function refreshMonitoringFromAssets() {
+      const assets = loadAssets();
+      setMonitoringData(computeMonitoringFromAssets(assets));
+    }
+
+    // =========================================================
+    // INPUT ASET (Admin) - Create ke Sheet + simpan lokal
+    // =========================================================
+    const inputAsetForm = document.getElementById("inputAsetForm");
+    const btnTidakSimpan = document.getElementById("btnTidakSimpan");
+    const asetMsg = document.getElementById("asetMsg");
+    const btnSimpanAset = document.getElementById("btnSimpanAset");
+
+    function showAsetMsg(text, ok) {
+      asetMsg.style.display = "block";
+      asetMsg.style.color = ok ? "#166534" : "#b91c1c";
+      asetMsg.textContent = text;
+    }
+    function hideAsetMsg() {
+      asetMsg.style.display = "none";
+      asetMsg.textContent = "";
+    }
+
+    btnTidakSimpan.addEventListener("click", () => {
+      inputAsetForm.reset();
+      goHome();
+    });
+
+    inputAsetForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      hideAsetMsg();
+
+      if (!isAdminLoggedIn()) {
+        showAsetMsg("Akses ditolak. Silakan login admin.", false);
+        openAdminModal("input-aset");
+        return;
+      }
+
+      if (!ASSET_API_URL) {
+        showAsetMsg("ASSET_API_URL belum diisi.", false);
+        return;
+      }
+
+      const ok = confirm("Simpan data aset ke Google Spreadsheet?");
+      if (!ok) return;
+
+      const adminEmail = sessionStorage.getItem(ADMIN_SESSION_KEY) || "";
+      const assetId = makeAssetId();
+
+      const payload = {
+        mode: "create",
+        assetId,
+        adminEmail,
+        namaAset: document.getElementById("asetNama").value.trim(),
+        merek: document.getElementById("merek").value.trim(),
+        lokasiAset: document.getElementById("asetLokasi").value.trim(),
+        kondisi: document.getElementById("asetKondisi").value,
+        keterangan: document.getElementById("asetKeterangan").value.trim()
+      };
+
+      btnSimpanAset.disabled = true;
+      btnSimpanAset.textContent = "Menyimpan...";
+
+      try {
+        const res = await fetch(ASSET_API_URL, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify(payload)
+        });
+
+        const text = await res.text();
+        const data = safeJsonParse(text);
+
+        if (!data.ok) {
+          showAsetMsg("Gagal menyimpan ke Sheet: " + (data.error || "Unknown error"), false);
+          return;
+        }
+
+        const assets = loadAssets();
+        assets.unshift({
+          assetId,
+          tanggal: new Date().toISOString(),
+          adminEmail,
+          namaAset: payload.namaAset,
+          merek: payload.merek,
+          lokasiAset: payload.lokasiAset,
+          kondisi: payload.kondisi,
+          keterangan: payload.keterangan
+        });
+        saveAssets(assets);
+
+        refreshMonitoringFromAssets();
+        renderAssetsManager();
+
+        showAsetMsg("Berhasil disimpan ke Sheet & monitoring ter-update.", true);
+
+        inputAsetForm.reset();
+        setTimeout(goHome, 600);
+      } catch (err) {
+        showAsetMsg("Gagal menyimpan (cek koneksi / permission Apps Script): " + String(err), false);
+      } finally {
+        btnSimpanAset.disabled = false;
+        btnSimpanAset.textContent = "Simpan";
+      }
+    });
+
+    // =========================================================
+    // KELOLA ASET (Admin) - Render + Delete Sheet + Local
+    // =========================================================
+    const assetsTbody = document.getElementById("assetsTbody");
+    const selectAllAssetsBtn = document.getElementById("selectAllAssetsBtn");
+    const unselectAllAssetsBtn = document.getElementById("unselectAllAssetsBtn");
+    const deleteSelectedAssetsBtn = document.getElementById("deleteSelectedAssetsBtn");
+
+    function renderAssetsManager() {
+      if (!isAdminLoggedIn()) {
+        assetsTbody.innerHTML = `
+          <tr>
+            <td colspan="8" style="text-align:center;color:#6b7280;padding:18px;white-space:normal;">
+              Silakan login sebagai admin untuk melihat data aset.
+            </td>
+          </tr>`;
+        return;
+      }
+
+      const assets = loadAssets();
+      assetsTbody.innerHTML = "";
+
+      if (assets.length === 0) {
+        assetsTbody.innerHTML = `
+          <tr>
+            <td colspan="8" style="text-align:center;color:#6b7280;padding:18px;white-space:normal;">
+              Belum ada data aset (lokal).
+            </td>
+          </tr>`;
+        return;
+      }
+
+      assets.forEach((a, idx) => {
+        const tr = document.createElement("tr");
+        const chipClass = a.kondisi === "baik" ? "baik" : (a.kondisi === "diperbaiki" ? "diperbaiki" : "rusak");
+        const kondisiLabel = a.kondisi || "-";
+
+        tr.innerHTML = `
+          <td><input type="checkbox" class="asset-checkbox" data-index="${idx}" aria-label="Pilih aset ${idx + 1}"></td>
+          <td>${escapeHtml(a.assetId || "-")}</td>
+          <td>${formatIso(a.tanggal)}</td>
+          <td class="wrap">${escapeHtml(a.namaAset || "-")}</td>
+          <td class="wrap">${escapeHtml(a.merek || "-")}</td>
+          <td class="wrap">${escapeHtml(a.lokasiAset || "-")}</td>
+          <td><span class="chip ${chipClass}">${escapeHtml(kondisiLabel)}</span></td>
+          <td class="wrap">${escapeHtml(a.keterangan || "-")}</td>
+        `;
+        assetsTbody.appendChild(tr);
+      });
+    }
+
+    function setAllAssetCheckboxes(checked) {
+      document.querySelectorAll(".asset-checkbox").forEach(c => { c.checked = checked; });
+    }
+
+    function getSelectedAssetIndexes() {
+      return Array.from(document.querySelectorAll(".asset-checkbox"))
+        .filter(c => c.checked)
+        .map(c => Number(c.getAttribute("data-index")))
+        .filter(n => Number.isFinite(n));
+    }
+
+    selectAllAssetsBtn.addEventListener("click", () => {
+      if (!isAdminLoggedIn()) return;
+      setAllAssetCheckboxes(true);
+    });
+
+    unselectAllAssetsBtn.addEventListener("click", () => {
+      if (!isAdminLoggedIn()) return;
+      setAllAssetCheckboxes(false);
+    });
+
+    deleteSelectedAssetsBtn.addEventListener("click", async () => {
+      if (!isAdminLoggedIn()) {
+        alert("Akses ditolak. Silakan login admin.");
+        openAdminModal("kelola-aset");
+        return;
+      }
+
+      const selected = getSelectedAssetIndexes();
+      if (selected.length === 0) {
+        alert("Belum ada aset yang dipilih.");
+        return;
+      }
+
+      const ok = confirm(`Yakin ingin menghapus ${selected.length} aset yang dipilih?\n\nAksi ini akan menghapus di:\n- Google Sheet (berdasarkan Asset ID)\n- localStorage\n\nCatatan: data lama yang tidak punya Asset ID tidak bisa dihapus otomatis dari sheet.`);
+      if (!ok) return;
+
+      const assets = loadAssets();
+      const indexesDesc = [...selected].sort((a,b) => b - a);
+
+      deleteSelectedAssetsBtn.disabled = true;
+      const oldText = deleteSelectedAssetsBtn.textContent;
+      deleteSelectedAssetsBtn.textContent = "Menghapus...";
+
+      try {
+        for (const idx of indexesDesc) {
+          const asset = assets[idx];
+          if (!asset) continue;
+
+          const assetId = String(asset.assetId || "").trim();
+          if (!assetId) {
+            alert("Gagal: ada aset yang tidak memiliki Asset ID.\nAset tanpa Asset ID tidak bisa dihapus dari Sheet.\nSilakan input aset baru (yang sudah otomatis punya Asset ID).");
+            return;
+          }
+
+          const res = await fetch(ASSET_API_URL, {
+            method: "POST",
+            headers: { "Content-Type": "text/plain;charset=utf-8" },
+            body: JSON.stringify({ mode: "delete", assetId })
+          });
+
+          const text = await res.text();
+          const data = safeJsonParse(text);
+
+          if (!data.ok) {
+            alert(
+              "Gagal menghapus di Sheet untuk assetId: " + assetId +
+              "\nError: " + (data.error || "Unknown error")
+            );
+            return;
+          }
+        }
+
+        for (const idx of indexesDesc) {
+          if (idx >= 0 && idx < assets.length) assets.splice(idx, 1);
+        }
+        saveAssets(assets);
+
+        renderAssetsManager();
+        refreshMonitoringFromAssets();
+
+        alert("Berhasil menghapus aset terpilih di Sheet dan di lokal. Monitoring sudah ter-update.");
+      } catch (err) {
+        alert("Terjadi error saat menghapus: " + String(err));
+      } finally {
+        deleteSelectedAssetsBtn.disabled = false;
+        deleteSelectedAssetsBtn.textContent = oldText || "Hapus yang Dipilih (Sheet + Lokal)";
+      }
+    });
+
+    // =========================================================
+    // REPORTS (localStorage) - status + mobile cards
+    // =========================================================
+    const reportsTbody = document.getElementById("reportsTbody");
+    const clearReportsBtn = document.getElementById("clearReportsBtn");
+    const reportsCards = document.getElementById("reportsCards");
+
+    function loadReports() {
+      try {
+        const raw = localStorage.getItem(REPORTS_STORAGE_KEY);
+        return raw ? JSON.parse(raw) : [];
+      } catch {
+        return [];
+      }
+    }
+
+    function saveReports(reports) {
+      localStorage.setItem(REPORTS_STORAGE_KEY, JSON.stringify(reports));
+    }
+
+    function formatDateTime(dt) {
+      return dt.toLocaleString("id-ID", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit"
+      });
+    }
+
+    function renderReports() {
+      const reports = loadReports();
+      reportsTbody.innerHTML = "";
+      if (reportsCards) reportsCards.innerHTML = "";
+
+      if (reports.length === 0) {
+        reportsTbody.innerHTML = `
+          <tr>
+            <td colspan="9" style="text-align:center;color:#6b7280;padding:18px;">
+              Belum ada laporan.
+            </td>
+          </tr>`;
+
+        if (reportsCards) {
+          reportsCards.innerHTML = `
+            <div style="text-align:center;color:#6b7280;font-weight:800;padding:12px;">
+              Belum ada laporan.
+            </div>`;
+        }
+        return;
+      }
+
+      // ===== Render Table (desktop) =====
+      reports.forEach((r, index) => {
+        r.status = normalizeStatus(r.status || "Dilaporkan");
+
+        const tr = document.createElement("tr");
+        const badgeClass = r.tingkat === "ringan" ? "ringan" : (r.tingkat === "sedang" ? "sedang" : "berat");
+        const fotoCell = r.fotoDataUrl
+          ? `<a href="${r.fotoDataUrl}" target="_blank" rel="noopener">
+              <img class="thumb" src="${r.fotoDataUrl}" alt="Foto aset">
+            </a>`
+          : "-";
+
+        const statusClass = getStatusClass(r.status);
+        const statusCell = `<span class="status-badge ${statusClass}">${escapeHtml(r.status)}</span>`;
+
+        const isAdmin = isAdminLoggedIn();
+        const adminActionCell = isAdmin
+          ? `
+            <select class="report-status-select" data-index="${index}" aria-label="Ubah status laporan">
+              <option value="Dilaporkan" ${r.status === "Dilaporkan" ? "selected" : ""}>Dilaporkan</option>
+              <option value="Proses" ${r.status === "Proses" ? "selected" : ""}>Proses</option>
+              <option value="Sudah di perbaiki" ${r.status === "Sudah di perbaiki" ? "selected" : ""}>Sudah di perbaiki</option>
+            </select>
+          `
+          : `<span style="color:#64748b;font-weight:800;">-</span>`;
+
+        tr.innerHTML = `
+          <td>${escapeHtml(r.tanggal)}</td>
+          <td>${escapeHtml(r.namaPemohon || "-")}</td>
+          <td>${escapeHtml(r.namaAset || "-")}</td>
+          <td>${escapeHtml(r.lokasiAset || "-")}</td>
+          <td><span class="badge ${badgeClass}">${escapeHtml(r.tingkat)}</span></td>
+          <td>${statusCell}</td>
+          <td>${escapeHtml(r.deskripsi || "-")}</td>
+          <td>${fotoCell}</td>
+          <td>${adminActionCell}</td>
+        `;
+        reportsTbody.appendChild(tr);
+      });
+
+      // ===== Render Cards (mobile) =====
+      if (reportsCards) {
+        reports.forEach((r, index) => {
+          const badgeClass = r.tingkat === "ringan" ? "ringan" : (r.tingkat === "sedang" ? "sedang" : "berat");
+          const statusClass = getStatusClass(r.status);
+
+          const fotoBlock = r.fotoDataUrl
+            ? `
+              <div class="rc-row rc-photo">
+                <div class="k">Foto</div>
+                <div class="v">
+                  <a href="${r.fotoDataUrl}" target="_blank" rel="noopener">
+                    <img src="${r.fotoDataUrl}" alt="Foto aset">
+                  </a>
+                </div>
+              </div>
+            `
+            : `
+              <div class="rc-row">
+                <div class="k">Foto</div>
+                <div class="v">-</div>
+              </div>
+            `;
+
+          const isAdmin = isAdminLoggedIn();
+          const actionBlock = isAdmin
+            ? `
+              <div class="rc-row">
+                <div class="k">Aksi (Admin)</div>
+                <div class="v">
+                  <select class="report-status-select" data-index="${index}" aria-label="Ubah status laporan">
+                    <option value="Dilaporkan" ${r.status === "Dilaporkan" ? "selected" : ""}>Dilaporkan</option>
+                    <option value="Proses" ${r.status === "Proses" ? "selected" : ""}>Proses</option>
+                    <option value="Sudah di perbaiki" ${r.status === "Sudah di perbaiki" ? "selected" : ""}>Sudah di perbaiki</option>
+                  </select>
+                </div>
+              </div>
+            `
+            : `
+              <div class="rc-row">
+                <div class="k">Aksi (Admin)</div>
+                <div class="v">-</div>
+              </div>
+            `;
+
+          const card = document.createElement("div");
+          card.className = "report-card";
+          card.innerHTML = `
+            <div class="rc-head">
+              <div class="date">${escapeHtml(r.tanggal)}</div>
+              <div class="meta">
+                <span class="status-badge ${statusClass}">${escapeHtml(r.status)}</span>
+                <span class="badge ${badgeClass}">${escapeHtml(r.tingkat)}</span>
+              </div>
+            </div>
+
+            <div class="rc-body">
+              <div class="rc-row"><div class="k">Pemohon</div><div class="v">${escapeHtml(r.namaPemohon || "-")}</div></div>
+              <div class="rc-row"><div class="k">Nama Aset</div><div class="v">${escapeHtml(r.namaAset || "-")}</div></div>
+              <div class="rc-row"><div class="k">Lokasi</div><div class="v">${escapeHtml(r.lokasiAset || "-")}</div></div>
+
+              <div>
+                <div class="k" style="margin-bottom:6px;">Deskripsi</div>
+                <div class="rc-desc">${escapeHtml(r.deskripsi || "-")}</div>
+              </div>
+
+              ${fotoBlock}
+              ${actionBlock}
+            </div>
+          `;
+          reportsCards.appendChild(card);
+        });
+      }
+
+      // ===== Bind status change (admin only) =====
+      if (isAdminLoggedIn()) {
+        document.querySelectorAll(".report-status-select").forEach(sel => {
+          sel.addEventListener("change", (e) => {
+            const idx = Number(e.target.getAttribute("data-index"));
+            const val = normalizeStatus(e.target.value);
+
+            const reports = loadReports();
+            if (!reports[idx]) return;
+
+            reports[idx].status = val;
+            saveReports(reports);
+            renderReports();
+          });
+        });
+      }
+    }
+
+    clearReportsBtn.addEventListener("click", () => {
+      if (!isAdminLoggedIn()) {
+        alert("Akses ditolak. Hanya admin yang dapat menghapus riwayat perbaikan.");
+        openAdminModal("kelola-aset");
+        return;
+      }
+      const ok = confirm("Yakin ingin menghapus semua riwayat laporan di perangkat ini?");
+      if (!ok) return;
+      localStorage.removeItem(REPORTS_STORAGE_KEY);
+      renderReports();
+    });
+
+    // =========================================================
+    // EmailJS notify (opsional, tetap ada seperti kode awal)
+    // =========================================================
+    async function notifyEmail(report) {
+      try {
+        emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+        const params = {
+          to_email: ADMIN_EMAIL,
+          nama_pemohon: report.namaPemohon,
+          tanggal: report.tanggal,
+          nama_aset: report.namaAset,
+          lokasi: report.lokasiAset,
+          tingkat: report.tingkat,
+          deskripsi: report.deskripsi
+        };
+        await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, params);
+      } catch (err) {
+        console.error("EmailJS error:", err);
+      }
+    }
+
+    function fileToDataUrl(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+
+    // Submit Request Perbaikan (status default: Dilaporkan)
+    requestForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const data = new FormData(requestForm);
+      const file = fotoInput.files && fotoInput.files[0];
+
+      const report = {
+        tanggal: formatDateTime(new Date()),
+        namaPemohon: String(data.get("namaPemohon") || ""),
+        namaAset: String(data.get("namaAset") || ""),
+        lokasiAset: String(data.get("lokasiAset") || ""),
+        tingkat: String(data.get("tingkatKerusakan") || ""),
+        status: "Dilaporkan",
+        deskripsi: String(data.get("deskripsiKerusakan") || ""),
+        fotoDataUrl: ""
+      };
+
+      if (file) report.fotoDataUrl = await fileToDataUrl(file);
+
+      const reports = loadReports();
+      reports.unshift(report);
+      saveReports(reports);
+      renderReports();
+
+      requestForm.reset();
+      previewWrap.classList.remove("show");
+      previewImg.removeAttribute("src");
+      closeRequestModal();
+
+      // notif email (opsional)
+      await notifyEmail(report);
+    });
+
+    // =========================================================
+    // INIT
+    // =========================================================
+    function applyAdminUI() {
+      const ok = isAdminLoggedIn();
+      kelolaAsetSection.classList.toggle("show", ok);
+      adminLogoutBtn.style.display = ok ? "inline-flex" : "none";
+      clearReportsBtn.style.display = ok ? "inline-flex" : "none";
+      renderReports();
+    }
+
+    // INIT UI
+    renderReports();
+    refreshMonitoringFromAssets();
+    applyAdminUI();
+    renderAssetsManager();
+  </script>
+</body>
+</html>
