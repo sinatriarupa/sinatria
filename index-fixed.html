@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SINATRIA | Rutan Kelas IIB Pandeglang</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+  <style>
+    :root{
+      --navy:#002D5E;
+      --gold:#D4AF37;
+      --light-gold:#F4E5B2;
+      --white:#ffffff;
+      --gray:#f4f4f9;
+      --dark:#333;
+    }
+    *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;}
+    body{background-color:var(--gray);color:var(--dark);line-height:1.6;}
+    nav{background-color:var(--navy);color:var(--white);padding:1rem 5%;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:1000;border-bottom:3px solid var(--gold);gap:12px;}
+    .brand{display:flex;align-items:center;gap:10px;min-width:fit-content;}
+    .logo-text{font-weight:700;font-size:1.5rem;letter-spacing:1px;}
+    .brand-logo{width:38px;height:38px;object-fit:contain;border-radius:8px;background:#fff;padding:4px;border:1px solid rgba(255,255,255,.15);}
+    .nav-links{list-style:none;display:flex;}
+    .nav-links li{margin-left:20px;}
+    .nav-links a{color:var(--white);text-decoration:none;font-weight:500;transition:.3s;}
+    .nav-links a:hover{color:var(--gold);}
+    .nav-toggle{display:none;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.06);color:#fff;width:44px;height:40px;border-radius:10px;cursor:pointer;}
+    .btn-logout{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);color:#fff;padding:10px 12px;border-radius:10px;cursor:pointer;font-weight:800;display:none;}
+    .mobile-nav{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:1500;padding:18px;}
+    .mobile-nav.show{display:block;}
+    .mobile-nav-panel{width:100%;max-width:420px;margin-left:auto;background:var(--navy);border:1px solid rgba(255,255,255,.12);border-radius:14px;overflow:hidden;box-shadow:0 12px 35px rgba(0,0,0,.35);}
+    .mobile-nav-header{display:flex;align-items:center;justify-content:space-between;padding:14px;border-bottom:1px solid rgba(255,255,255,.12);}
+    .mobile-nav-header strong{color:var(--gold);letter-spacing:.5px;}
+    .mobile-nav-close{border:none;background:rgba(255,255,255,.08);color:#fff;width:40px;height:36px;border-radius:10px;cursor:pointer;}
+    .mobile-links{list-style:none;display:flex;flex-direction:column;padding:10px;gap:8px;}
+    .mobile-links a{display:flex;align-items:center;gap:10px;padding:12px;border-radius:12px;color:#fff;text-decoration:none;font-weight:700;background:rgba(255,255,255,.06);}
+    .hero{background:linear-gradient(rgba(0,45,94,.9),rgba(0,45,94,.8)),url("https://drive.google.com/thumbnail?id=1TyNBtwp00T6LezOKvseTQl2okaTV5Dx-&sz=w2000")no-repeat center center/cover;height:80vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;color:#fff;padding:0 20px;}
+    .hero h1{font-size:3rem;margin-bottom:1rem;color:var(--gold);}
+    .hero p{font-size:1.2rem;max-width:800px;margin-bottom:2rem;}
+    .btn{background-color:var(--gold);color:var(--navy);padding:12px 30px;text-decoration:none;font-weight:800;border-radius:5px;transition:.3s;}
+    .btn:hover{background:#fff;transform:translateY(-3px);}
+    .about{padding:80px 5%;background:#fff;text-align:center;}
+    .about h2{color:var(--navy);margin-bottom:20px;font-size:2rem;}
+    .monitoring{padding:80px 5%;background:#fff;text-align:center;}
+    .monitoring h2{color:var(--navy);margin-bottom:12px;font-size:2rem;}
+    .monitoring-wrap{margin-top:24px;display:grid;grid-template-columns:1.1fr .9fr;gap:22px;align-items:start;}
+    .chart-card{background:#fff;border-radius:12px;box-shadow:0 4px 15px rgba(0,0,0,.08);border-top:4px solid var(--gold);padding:18px;text-align:left;}
+    .kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+    .kpi{background:#fff;border-radius:12px;box-shadow:0 4px 15px rgba(0,0,0,.08);border-top:4px solid var(--gold);padding:14px;text-align:left;}
+    .kpi .label{color:#475569;font-weight:700;font-size:.95rem;}
+    .kpi .value{font-size:2rem;font-weight:900;color:#0f172a;}
+    .assets{padding:60px 5%;background:var(--gray);display:none;}
+    .assets.show{display:block;}
+    .assets h2{color:var(--navy);margin-bottom:14px;font-size:1.8rem;text-align:center;}
+    .assets-table-wrap{overflow:auto;}
+    .assets table{width:100%;border-collapse:collapse;}
+    .assets table th,.assets table td{padding:12px 14px;border-bottom:1px solid #eef2f7;text-align:left;font-size:.95rem;}
+    .chip{display:inline-block;padding:4px 10px;border-radius:999px;font-size:.85rem;font-weight:900;}
+    .chip.baik{background:#dcfce7;color:#166534;}
+    .chip.diperbaiki{background:#fef9c3;color:#854d0e;}
+    .chip.rusak{background:#fee2e2;color:#991b1b;}
+    .reports{padding:60px 5%;background:var(--gray);}
+    .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;padding:20px;z-index:2000;}
+    .modal-overlay.show{display:flex;}
+    .modal{width:100%;max-width:720px;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 12px 35px rgba(0,0,0,.25);max-height:92vh;display:flex;flex-direction:column;}
+    .modal-header{background:var(--navy);color:#fff;padding:16px 18px;display:flex;align-items:center;justify-content:space-between;}
+    .modal-body{padding:18px;flex:1;overflow:auto;}
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+    .form-group{display:flex;flex-direction:column;gap:6px;}
+    label{font-weight:700;color:#1f2a37;font-size:.95rem;}
+    input,select,textarea{padding:10px 12px;border:1px solid #e2e8f0;border-radius:8px;outline:none;}
+    input:focus,select:focus,textarea:focus{border-color:var(--gold);}
+    .modal-footer{padding:14px 18px;display:flex;justify-content:flex-end;gap:10px;border-top:1px solid #eef2f7;}
+    .btn-secondary{background:#e5e7eb;color:#111827;padding:10px 16px;border:none;border-radius:8px;cursor:pointer;font-weight:800;}
+    .btn-primary{background:var(--gold);color:var(--navy);padding:10px 16px;border:none;border-radius:8px;cursor:pointer;font-weight:900;}
+    .btn-danger{background:#ef4444;color:#fff;padding:10px 14px;border:none;border-radius:8px;cursor:pointer;font-weight:900;}
+    footer{background:var(--navy);color:#fff;padding:40px 5% 20px;border-top:5px solid var(--gold);}
+    @media (max-width:768px){.hero h1{font-size:2rem;}.nav-links{display:none;}.nav-toggle{display:inline-flex;align-items:center;justify-content:center;}}
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="brand">
+      <img class="brand-logo" src="https://drive.google.com/thumbnail?id=1sDQZytdf6HV0uqP5FoN8oBqmayJLMDnW&sz=w1000" alt="Logo SINATRIA" />
+      <div class="logo-text">SINATRIA</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <button class="btn-logout" id="adminLogoutBtn" type="button">Logout</button>
+      <button class="nav-toggle" id="navToggleBtn"><i class="fas fa-bars"></i></button>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#beranda">Beranda</a></li>
+      <li><a href="#about">Tentang</a></li>
+      <li><a href="#monitoring">Monitoring</a></li>
+      <li><a href="#" id="kelolaAsetLink">Kelola Aset</a></li>
+      <li><a href="#" id="inputAsetLink">Input Aset</a></li>
+      <li><a href="#" id="requestPerbaikanLink">Request Perbaikan</a></li>
+    </ul>
+  </nav>
+
+  <div class="mobile-nav" id="mobileNav">
+    <div class="mobile-nav-panel">
+      <div class="mobile-nav-header">
+        <strong>SINATRIA</strong>
+        <button class="mobile-nav-close" id="mobileNavCloseBtn"><i class="fas fa-times"></i></button>
+      </div>
+      <ul class="mobile-links">
+        <li><a class="mobile-link" href="#beranda"><i class="fas fa-home"></i> Beranda</a></li>
+        <li><a class="mobile-link" href="#about"><i class="fas fa-circle-info"></i> Tentang</a></li>
+        <li><a class="mobile-link" href="#monitoring"><i class="fas fa-chart-pie"></i> Monitoring</a></li>
+        <li><a class="mobile-link" href="#" id="mobileKelolaAsetLink"><i class="fas fa-box-archive"></i> Kelola Aset</a></li>
+        <li><a class="mobile-link" href="#" id="mobileInputAsetLink"><i class="fas fa-pen-to-square"></i> Input Aset</a></li>
+        <li><a class="mobile-link" href="#" id="mobileRequestPerbaikanLink"><i class="fas fa-wrench"></i> Request Perbaikan</a></li>
+        <li><a class="mobile-link" href="#riwayat"><i class="fas fa-clock-rotate-left"></i> Riwayat</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <section class="hero" id="beranda">
+    <h1>Digitalisasi Pengelolaan Aset</h1>
+    <p>Mewujudkan tata kelola fasilitas umum yang transparan, akuntabel, dan terintegrasi di lingkungan Rutan Kelas IIB Pandeglang</p>
+    <a href="#about" class="btn">Pelajari Selengkapnya</a>
+  </section>
+
+  <section class="about" id="about">
+    <h2>Tentang SINATRIA</h2>
+    <img class="about-image" src="https://drive.google.com/thumbnail?id=1sDQZytdf6HV0uqP5FoN8oBqmayJLMDnW&sz=w2000" alt="SINATRIA" style="width:150px;margin:20px auto;border-radius:14px;" />
+    <p>SINATRIA adalah platform inovatif untuk mengoptimalkan pendataan, pemantauan, dan pemeliharaan Barang Milik Negara</p>
+  </section>
+
+  <section class="monitoring" id="monitoring">
+    <h2>Monitoring Aset</h2>
+    <div class="kpi-grid" style="margin-top:30px;max-width:600px;margin-left:auto;margin-right:auto;">
+      <div class="kpi"><div class="label">Total Aset</div><div class="value" id="kpi-total">0</div></div>
+      <div class="kpi"><div class="label">Kondisi Baik</div><div class="value" id="kpi-baik">0</div></div>
+      <div class="kpi"><div class="label">Diperbaiki</div><div class="value" id="kpi-perbaiki">0</div></div>
+      <div class="kpi"><div class="label">Rusak</div><div class="value" id="kpi-rusak">0</div></div>
+    </div>
+  </section>
+
+  <section class="assets" id="kelola-aset">
+    <h2>Kelola Aset</h2>
+    <div style="background:#fff;border-radius:12px;padding:20px;box-shadow:0 4px 15px rgba(0,0,0,.08);">
+      <div style="margin-bottom:15px;display:flex;gap:10px;flex-wrap:wrap;">
+        <button class="btn-secondary" id="selectAllAssetsBtn"><i class="fas fa-check-double"></i> Pilih Semua</button>
+        <button class="btn-secondary" id="unselectAllAssetsBtn"><i class="fas fa-xmark"></i> Batal Pilih</button>
+        <button class="btn-danger" id="deleteSelectedAssetsBtn"><i class="fas fa-trash"></i> Hapus</button>
+      </div>
+      <div class="assets-table-wrap">
+        <table>
+          <thead><tr><th>Pilih</th><th>Asset ID</th><th>Tanggal</th><th>Nama</th><th>Merek</th><th>Lokasi</th><th>Kondisi</th></tr></thead>
+          <tbody id="assetsTbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="about" id="input-aset" style="display:none;">
+    <h2>Input Aset</h2>
+    <div style="max-width:600px;margin:20px auto;background:#fff;padding:30px;border-radius:12px;">
+      <form id="inputAsetForm">
+        <div class="form-grid">
+          <div class="form-group"><label>Nama Aset</label><input type="text" id="asetNama" required /></div>
+          <div class="form-group"><label>Merek</label><input type="text" id="merek" required /></div>
+          <div class="form-group" style="grid-column:1/-1;"><label>Lokasi</label><input type="text" id="asetLokasi" required /></div>
+          <div class="form-group" style="grid-column:1/-1;"><label>Kondisi</label><select id="asetKondisi" required><option value="">Pilih...</option><option value="baik">Baik</option><option value="diperbaiki">Diperbaiki</option><option value="rusak">Rusak</option></select></div>
+          <div class="form-group" style="grid-column:1/-1;"><label>Keterangan</label><textarea id="asetKeterangan" style="min-height:100px;"></textarea></div>
+          <div class="form-group" style="grid-column:1/-1;" id="asetMsg" style="display:none;"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" id="btnTidakSimpan">Batal</button>
+          <button type="submit" class="btn-primary">Simpan</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <section class="reports" id="riwayat">
+    <h2>Riwayat Laporan</h2>
+    <div style="background:#fff;border-radius:12px;padding:20px;box-shadow:0 4px 15px rgba(0,0,0,.08);">
+      <div class="assets-table-wrap">
+        <table id="reportsTable">
+          <thead><tr><th>Tanggal</th><th>Pemohon</th><th>Aset</th><th>Lokasi</th><th>Tingkat</th><th>Status</th></tr></thead>
+          <tbody id="reportsTbody"></tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-danger" id="clearReportsBtn"><i class="fas fa-trash"></i> Hapus Riwayat</button>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div style="text-align:center;">
+      <h4 style="color:var(--gold);">Rutan Kelas IIB Pandeglang</h4>
+      <p>&copy; 2026 SINATRIA. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Modal Request Perbaikan -->
+  <div class="modal-overlay" id="requestModalOverlay">
+    <div class="modal">
+      <div class="modal-header">
+        <h3><i class="fas fa-wrench"></i> Form Request Perbaikan</h3>
+        <button class="modal-close" id="requestModalCloseBtn" style="border:none;background:transparent;color:#fff;cursor:pointer;"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="modal-body">
+        <form id="requestPerbaikanForm">
+          <div class="form-grid">
+            <div class="form-group"><label>Nama Pemohon</label><input type="text" id="namaPemohon" required /></div>
+            <div class="form-group"><label>Nama Aset</label><input type="text" id="namaAset" required /></div>
+            <div class="form-group"><label>Lokasi</label><input type="text" id="lokasiAset" required /></div>
+            <div class="form-group"><label>Tingkat Kerusakan</label><select id="tingkatKerusakan" required><option value="">Pilih...</option><option value="ringan">Ringan</option><option value="sedang">Sedang</option><option value="berat">Berat</option></select></div>
+            <div class="form-group" style="grid-column:1/-1;"><label>Deskripsi</label><textarea id="deskripsiKerusakan" required style="min-height:100px;"></textarea></div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn-secondary" id="requestModalCancelBtn">Batal</button>
+            <button type="submit" class="btn-primary">Kirim</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Login Admin -->
+  <div class="modal-overlay" id="adminModalOverlay">
+    <div class="modal">
+      <div class="modal-header">
+        <h3><i class="fas fa-lock"></i> Login Admin</h3>
+        <button class="modal-close" id="adminModalCloseBtn" style="border:none;background:transparent;color:#fff;cursor:pointer;"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="modal-body">
+        <form id="adminLoginForm">
+          <div class="form-grid">
+            <div class="form-group" style="grid-column:1/-1;"><label>Email Admin</label><input type="text" id="adminEmail" placeholder="admin@example.com" required /></div>
+            <div class="form-group" style="grid-column:1/-1;"><label>Password</label><input type="password" id="adminPassword" required /></div>
+            <div id="adminLoginError" style="grid-column:1/-1;color:#b91c1c;display:none;"></div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn-secondary" id="adminModalCancelBtn">Batal</button>
+            <button type="submit" class="btn-primary">Login</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ===== CONFIG =====
+    const ASSET_API_URL = "https://script.google.com/macros/s/AKfycbzRYw63EFeuYD9gVIjRQROePqqI5YN4o0R5WL7eRI7W7NZQaSxUZlqWxXSqMxdEmooo/exec";
+    const ADMIN_LOGIN_EMAIL = "sinatriarupa@gmail.com";
+    const ADMIN_LOGIN_PASSWORD = "InovasiM4gan9";
+    const ADMIN_SESSION_KEY = "sinatria_admin_email";
+    const ASSET_STORAGE_KEY = "sinatria_assets_v1";
+    const REPORTS_STORAGE_KEY = "sinatria_reports_v1";
+
+    // ===== HELPERS =====
+    function escapeHtml(str) {
+      return String(str).replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;").replaceAll("'", "&#039;");
+    }
+    function safeJsonParse(text) {
+      try { return JSON.parse(text); } catch { return null; }
+    }
+    function makeAssetId() {
+      return "asset_" + Date.now() + "_" + Math.random().toString(16).slice(2);
+    }
+    function formatDate(iso) {
+      try {
+        const d = new Date(iso);
+        return d.toLocaleString("id-ID", { year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit" });
+      } catch { return iso || "-"; }
+    }
+
+    async function callAPI(action, data = {}) {
+      try {
+        const response = await fetch(ASSET_API_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          mode: "cors",
+          body: JSON.stringify({ action, ...data })
+        });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        return await response.json();
+      } catch (err) {
+        console.error("API Error:", err);
+        return { ok: false, error: err.message };
+      }
+    }
+
+    // ===== MOBILE NAV =====
+    const navToggleBtn = document.getElementById("navToggleBtn");
+    const mobileNav = document.getElementById("mobileNav");
+    const mobileNavCloseBtn = document.getElementById("mobileNavCloseBtn");
+    navToggleBtn.addEventListener("click", () => mobileNav.classList.toggle("show"));
+    mobileNavCloseBtn.addEventListener("click", () => mobileNav.classList.remove("show"));
+    document.querySelectorAll(".mobile-link").forEach(a => a.addEventListener("click", () => mobileNav.classList.remove("show")));
+
+    // ===== ADMIN AUTH =====
+    function isAdminLoggedIn() {
+      return sessionStorage.getItem(ADMIN_SESSION_KEY) === ADMIN_LOGIN_EMAIL;
+    }
+    function showAdminPanel() {
+      if (isAdminLoggedIn()) {
+        document.getElementById("adminLogoutBtn").style.display = "inline-block";
+        document.getElementById("kelola-aset").classList.add("show");
+        document.getElementById("inputAsetLink").style.display = "inline";
+        document.getElementById("mobileInputAsetLink").style.display = "flex";
+      }
+    }
+    document.getElementById("adminLogoutBtn").addEventListener("click", () => {
+      sessionStorage.removeItem(ADMIN_SESSION_KEY);
+      location.reload();
+    });
+    document.getElementById("kelolaAsetLink").addEventListener("click", (e) => {
+      e.preventDefault();
+      if (!isAdminLoggedIn()) {
+        document.getElementById("adminModalOverlay").classList.add("show");
+      }
+    });
+    document.getElementById("mobileKelolaAsetLink").addEventListener("click", (e) => {
+      e.preventDefault();
+      if (!isAdminLoggedIn()) {
+        document.getElementById("adminModalOverlay").classList.add("show");
+      }
+    });
+
+    // ===== LOGIN FORM =====
+    document.getElementById("adminLoginForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const email = document.getElementById("adminEmail").value;
+      const password = document.getElementById("adminPassword").value;
+      const errorEl = document.getElementById("adminLoginError");
+      if (email === ADMIN_LOGIN_EMAIL && password === ADMIN_LOGIN_PASSWORD) {
+        sessionStorage.setItem(ADMIN_SESSION_KEY, ADMIN_LOGIN_EMAIL);
+        document.getElementById("adminModalOverlay").classList.remove("show");
+        showAdminPanel();
+      } else {
+        errorEl.textContent = "Email atau password salah";
+        errorEl.style.display = "block";
+      }
+    });
+    document.getElementById("adminModalCancelBtn").addEventListener("click", () => {
+      document.getElementById("adminModalOverlay").classList.remove("show");
+    });
+    document.getElementById("adminModalCloseBtn").addEventListener("click", () => {
+      document.getElementById("adminModalOverlay").classList.remove("show");
+    });
+
+    // ===== INPUT ASET =====
+    document.getElementById("inputAsetLink").addEventListener("click", (e) => {
+      e.preventDefault();
+      if (isAdminLoggedIn()) {
+        document.getElementById("input-aset").style.display = "block";
+        document.getElementById("input-aset").scrollIntoView({ behavior: "smooth" });
+      }
+    });
+    document.getElementById("mobileInputAsetLink").addEventListener("click", (e) => {
+      e.preventDefault();
+      if (isAdminLoggedIn()) {
+        document.getElementById("input-aset").style.display = "block";
+        document.getElementById("input-aset").scrollIntoView({ behavior: "smooth" });
+      }
+    });
+    document.getElementById("btnTidakSimpan").addEventListener("click", () => {
+      document.getElementById("input-aset").style.display = "none";
+      document.getElementById("inputAsetForm").reset();
+    });
+    document.getElementById("inputAsetForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const namaAset = document.getElementById("asetNama").value;
+      const merek = document.getElementById("merek").value;
+      const lokasi = document.getElementById("asetLokasi").value;
+      const kondisi = document.getElementById("asetKondisi").value;
+      const keterangan = document.getElementById("asetKeterangan").value;
+      
+      const assetId = makeAssetId();
+      const tanggal = new Date().toISOString();
+      
+      const assets = safeJsonParse(localStorage.getItem(ASSET_STORAGE_KEY)) || [];
+      assets.push({ assetId, tanggal, namaAset, merek, lokasi, kondisi, keterangan });
+      localStorage.setItem(ASSET_STORAGE_KEY, JSON.stringify(assets));
+      
+      await callAPI("addAsset", { assetId, tanggal, namaAset, merek, lokasi, kondisi, keterangan });
+      
+      alert("✅ Aset berhasil disimpan!");
+      document.getElementById("input-aset").style.display = "none";
+      document.getElementById("inputAsetForm").reset();
+      loadAssets();
+    });
+
+    // ===== LOAD ASSETS =====
+    async function loadAssets() {
+      const result = await callAPI("getAssets");
+      let assets = [];
+      if (result.ok) {
+        assets = result.assets || [];
+        localStorage.setItem(ASSET_STORAGE_KEY, JSON.stringify(assets));
+      } else {
+        assets = safeJsonParse(localStorage.getItem(ASSET_STORAGE_KEY)) || [];
+      }
+      renderAssetsTable(assets);
+      updateMonitoring(assets);
+    }
+    function renderAssetsTable(assets) {
+      const tbody = document.getElementById("assetsTbody");
+      tbody.innerHTML = "";
+      if (assets.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:#999;padding:20px;">Belum ada data aset</td></tr>';
+        return;
+      }
+      assets.forEach(asset => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td><input type="checkbox" data-asset-id="${escapeHtml(asset.assetId)}" /></td>
+          <td>${escapeHtml(asset.assetId)}</td>
+          <td>${escapeHtml(formatDate(asset.tanggal))}</td>
+          <td>${escapeHtml(asset.namaAset)}</td>
+          <td>${escapeHtml(asset.merek)}</td>
+          <td>${escapeHtml(asset.lokasi)}</td>
+          <td><span class="chip ${asset.kondisi}">${escapeHtml(asset.kondisi)}</span></td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+    function updateMonitoring(assets) {
+      const total = assets.length;
+      const baik = assets.filter(a => a.kondisi === "baik").length;
+      const perbaiki = assets.filter(a => a.kondisi === "diperbaiki").length;
+      const rusak = assets.filter(a => a.kondisi === "rusak").length;
+      
+      document.getElementById("kpi-total").textContent = total;
+      document.getElementById("kpi-baik").textContent = baik;
+      document.getElementById("kpi-perbaiki").textContent = perbaiki;
+      document.getElementById("kpi-rusak").textContent = rusak;
+    }
+
+    // ===== DELETE ASSETS =====
+    document.getElementById("selectAllAssetsBtn").addEventListener("click", () => {
+      document.querySelectorAll("#assetsTbody input[type='checkbox']").forEach(cb => cb.checked = true);
+    });
+    document.getElementById("unselectAllAssetsBtn").addEventListener("click", () => {
+      document.querySelectorAll("#assetsTbody input[type='checkbox']").forEach(cb => cb.checked = false);
+    });
+    document.getElementById("deleteSelectedAssetsBtn").addEventListener("click", async () => {
+      const checkboxes = document.querySelectorAll("#assetsTbody input[type='checkbox']:checked");
+      if (checkboxes.length === 0) {
+        alert("Pilih minimal 1 aset!");
+        return;
+      }
+      if (!confirm(`Hapus ${checkboxes.length} aset?`)) return;
+      
+      const assetIds = Array.from(checkboxes).map(cb => cb.dataset.assetId);
+      await callAPI("deleteAssets", { assetIds });
+      
+      let assets = safeJsonParse(localStorage.getItem(ASSET_STORAGE_KEY)) || [];
+      assets = assets.filter(a => !assetIds.includes(a.assetId));
+      localStorage.setItem(ASSET_STORAGE_KEY, JSON.stringify(assets));
+      
+      alert("✅ Aset berhasil dihapus!");
+      loadAssets();
+    });
+
+    // ===== REQUEST PERBAIKAN =====
+    document.getElementById("requestPerbaikanLink").addEventListener("click", (e) => {
+      e.preventDefault();
+      document.getElementById("requestModalOverlay").classList.add("show");
+    });
+    document.getElementById("mobileRequestPerbaikanLink").addEventListener("click", (e) => {
+      e.preventDefault();
+      document.getElementById("requestModalOverlay").classList.add("show");
+    });
+    document.getElementById("requestModalCancelBtn").addEventListener("click", () => {
+      document.getElementById("requestModalOverlay").classList.remove("show");
+    });
+    document.getElementById("requestModalCloseBtn").addEventListener("click", () => {
+      document.getElementById("requestModalOverlay").classList.remove("show");
+    });
+    document.getElementById("requestPerbaikanForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const reportId = makeAssetId();
+      const tanggal = new Date().toISOString();
+      const namaPemohon = document.getElementById("namaPemohon").value;
+      const namaAset = document.getElementById("namaAset").value;
+      const lokasi = document.getElementById("lokasiAset").value;
+      const tingkat = document.getElementById("tingkatKerusakan").value;
+      const deskripsi = document.getElementById("deskripsiKerusakan").value;
+      
+      const reports = safeJsonParse(localStorage.getItem(REPORTS_STORAGE_KEY)) || [];
+      reports.push({ reportId, tanggal, namaPemohon, namaAset, lokasi, tingkat, deskripsi, status: "dilaporkan" });
+      localStorage.setItem(REPORTS_STORAGE_KEY, JSON.stringify(reports));
+      
+      await callAPI("addReport", { reportId, tanggal, namaPemohon, namaAset, lokasi, tingkat, deskripsi });
+      
+      alert("✅ Request perbaikan berhasil dikirim!");
+      document.getElementById("requestPerbaikanForm").reset();
+      document.getElementById("requestModalOverlay").classList.remove("show");
+      loadReports();
+    });
+
+    // ===== LOAD REPORTS =====
+    async function loadReports() {
+      const result = await callAPI("getReports");
+      let reports = [];
+      if (result.ok) {
+        reports = result.reports || [];
+        localStorage.setItem(REPORTS_STORAGE_KEY, JSON.stringify(reports));
+      } else {
+        reports = safeJsonParse(localStorage.getItem(REPORTS_STORAGE_KEY)) || [];
+      }
+      renderReportsTable(reports);
+    }
+    function renderReportsTable(reports) {
+      const tbody = document.getElementById("reportsTbody");
+      tbody.innerHTML = "";
+      reports.forEach(report => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${escapeHtml(formatDate(report.tanggal))}</td>
+          <td>${escapeHtml(report.namaPemohon)}</td>
+          <td>${escapeHtml(report.namaAset)}</td>
+          <td>${escapeHtml(report.lokasi)}</td>
+          <td>${escapeHtml(report.tingkat)}</td>
+          <td>${escapeHtml(report.status)}</td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+    document.getElementById("clearReportsBtn").addEventListener("click", () => {
+      if (confirm("Hapus semua riwayat laporan?")) {
+        localStorage.removeItem(REPORTS_STORAGE_KEY);
+        loadReports();
+        alert("✅ Riwayat berhasil dihapus!");
+      }
+    });
+
+    // ===== INIT =====
+    showAdminPanel();
+    loadAssets();
+    loadReports();
+  </script>
+</body>
+</html>
